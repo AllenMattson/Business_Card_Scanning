@@ -4,6 +4,7 @@ import requests
 import nltk
 from telephone import get_telephone_numb
 from fax_number import get_fax_numb
+from company_name import get_company_name
 
 
 def detect_text(image_file):
@@ -12,7 +13,7 @@ def detect_text(image_file):
         base64_image = base64.b64encode(image.read()).decode()
 
     #print "Himanshu"
-    url = 'https://vision.googleapis.com/v1/images:annotate?key='ENTER YOUR API KEY'
+    url = 'https://vision.googleapis.com/v1/images:annotate?key=API KEY HERE'
     header = {'Content-Type': 'application/json'}
     body = {
         'requests': [{
@@ -328,7 +329,7 @@ def get_mobile_number(text):
 
 def extract_entities(text):
 
-    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key='ENTER YOUR API KEY'
+    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key=API KEY HERE'
     header = {'Content-Type': 'application/json'}
     body = {
         "document": {
@@ -377,7 +378,7 @@ def extract_required_entities(text):
 
 
 if __name__ == '__main__':
-    extracted_text=detect_text("FILE PATH")
+    extracted_text=detect_text("FILE PATH HERE")
     my_data= extract_required_entities(extracted_text)
     #str='\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
     #print u'\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
@@ -385,13 +386,18 @@ if __name__ == '__main__':
     print "-----------------------------------------"
     #print my_data
     print my_data['PERSON']
-    print my_data['ORGANIZATION']
+    #print my_data['ORGANIZATION']
+
     #print my_data['NUMBER']
     #print my_data['LOCATION']
     #str1=unicode(str,'utf_8')
     #print "HT",str1
     ##print str2
     copy=extracted_text.split('\n')
+    ans=get_company_name(copy)
+    if ans==None:
+        ans=my_data['ORGANIZATION']
+    print "Company Name - ",ans
     copy1=extracted_text.split()
     #print copy
     tel_numb=get_telephone_numb(copy)

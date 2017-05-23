@@ -168,13 +168,17 @@ def get_fax_numb(text):
             if j<len(i):
                 l=j
                 
-                while(l<len(i) and ((i[l]>='0' and i[l]<='9') or i[l]=="(" or i[l]==")" or i[l]=="-" or i[l]=="+") or i[l]==" "):
+                while((l<len(i) and ((i[l]>='0' and i[l]<='9') or i[l]=="(" or i[l]==")" or i[l]=="-" or i[l]=="+") or i[l]==" ")):
                     if i[l]=="(" or i[l]==" " or i[l]==")":
                         l=l+1
                         continue
                     else :
                         str=str+i[l]
                         l=l+1
+                    
+                    if l==len(i):
+                    	break
+
 
            
 
