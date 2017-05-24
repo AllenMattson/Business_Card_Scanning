@@ -18,3 +18,7 @@ def get_company_name(text):
 			return i
 		elif "大學" in i:
 			return i
+		elif "新聞" in i:
+			return i
+		elif "センター" in i:
+			return i

@@ -183,13 +183,18 @@ def get_telephone_numb(text):
             if j<len(i):
                 l=j
                 
-                while(l<len(i) and ((i[l]>='0' and i[l]<='9') or i[l]=="(" or i[l]==")" or i[l]=="-" or i[l]=="+") or i[l]==" "):
+                while((l<len(i) and ((i[l]>='0' and i[l]<='9') or i[l]=="(" or i[l]==")" or i[l]=="-" or i[l]=="+") or i[l]==" ")):
+                    #print l,len(i),i
                     if i[l]=="(" or i[l]==" " or i[l]==")":
                         l=l+1
-                        continue
+                    elif i[l]=='\n':
+                        break
                     else :
                         str=str+i[l]
                         l=l+1
+
+                    if l==len(i):
+                        break
 
            
 
@@ -214,12 +219,16 @@ def get_telephone_numb(text):
         
 
         counter,number=count_number(str)
+        #print counter,str,i
         if counter ==10:
             return (str)
         elif counter == 11:
             return str
         elif counter==12:
             return str
+        else :
+            str=""
+            continue
 
 
 

@@ -5,6 +5,9 @@ import nltk
 from telephone import get_telephone_numb
 from fax_number import get_fax_numb
 from company_name import get_company_name
+from company_address import get_address
+from department import get_department
+from branch import get_branch
 
 
 def detect_text(image_file):
@@ -13,7 +16,7 @@ def detect_text(image_file):
         base64_image = base64.b64encode(image.read()).decode()
 
     #print "Himanshu"
-    url = 'https://vision.googleapis.com/v1/images:annotate?key=API KEY HERE'
+    url = 'https://vision.googleapis.com/v1/images:annotate?key='--API KEY HERE--'
     header = {'Content-Type': 'application/json'}
     body = {
         'requests': [{
@@ -310,12 +313,13 @@ def get_email_id(text):
             return i
         if("@" in i):
             return i
-
-def get_address(text):
+'''def get_address(text):
     str="〒"
     for i in text:
         if str in i:
-            return i
+            return i'''
+
+
 
 
 def get_mobile_number(text):
@@ -329,7 +333,7 @@ def get_mobile_number(text):
 
 def extract_entities(text):
 
-    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key=API KEY HERE'
+    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key='--API KEY HERE--'
     header = {'Content-Type': 'application/json'}
     body = {
         "document": {
@@ -378,7 +382,7 @@ def extract_required_entities(text):
 
 
 if __name__ == '__main__':
-    extracted_text=detect_text("FILE PATH HERE")
+    extracted_text=detect_text("-- IMAGE FILE PATH --")
     my_data= extract_required_entities(extracted_text)
     #str='\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
     #print u'\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
@@ -389,7 +393,7 @@ if __name__ == '__main__':
     #print my_data['ORGANIZATION']
 
     #print my_data['NUMBER']
-    #print my_data['LOCATION']
+    #print "HT ",my_data['LOCATION']
     #str1=unicode(str,'utf_8')
     #print "HT",str1
     ##print str2
@@ -416,7 +420,14 @@ if __name__ == '__main__':
     print web_address
 
     address=get_address(copy)
-    print address
+    if address==None:
+        address=my_data['LOCATION']
+    print "Address-  ",address
 
+    department = get_department(copy)
+    print "Department- ", department
+
+    #branch =get_branch(copy)
+    #print "Branch- ",branch
 
     #print get_human_names(extracted_text)
