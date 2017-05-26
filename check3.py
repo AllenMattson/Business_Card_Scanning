@@ -8,7 +8,12 @@ from company_name import get_company_name
 from company_address import get_address
 from department import get_department
 from branch import get_branch
-
+from mobile import get_mobile_numb
+from email_checker import edit_email
+from position import get_position
+from name_edit import edit_name
+#!/usr/bin/python
+import re
 
 def detect_text(image_file):
 
@@ -16,7 +21,7 @@ def detect_text(image_file):
         base64_image = base64.b64encode(image.read()).decode()
 
     #print "Himanshu"
-    url = 'https://vision.googleapis.com/v1/images:annotate?key='--API KEY HERE--'
+    url = 'https://vision.googleapis.com/v1/images:annotate?key=Enter The Key Here'
     header = {'Content-Type': 'application/json'}
     body = {
         'requests': [{
@@ -37,7 +42,6 @@ def detect_text(image_file):
     text = response['responses'][0]['textAnnotations'][0]['description'] if len(response['responses'][0]) > 0 else ''
     print text.encode('utf_8')
     return text.encode('utf_8')
-
 
 
 def get_web_address(text):
@@ -308,32 +312,29 @@ def get_web_address(text):
 def get_email_id(text):
     for i in text:
         if("Email:" in i):
+            k=i.find("Email:")
+            return i[k:]
+        elif("EMAIL:" in i):
+            k=i.find("EMAIL:")
+            return i[k:]
+        elif("Email-" in i):
+            k=i.find("Email-")
+            return i[k:]
+        elif("EMAIL-" in i):
+            k=i.find("EMAIL-")
+            return i[k:]
+        elif("@" in i):
             return i
-        if("EMAIL:" in i):
-            return i
-        if("@" in i):
-            return i
-'''def get_address(text):
-    str="〒"
-    for i in text:
-        if str in i:
-            return i'''
 
 
 
 
-def get_mobile_number(text):
-    for i in text:
-        if "携帯:" in i:
-            return i 
-        if "Mobile:" in i:
-            return i
-        if "MOBILE:" in i:
-            return i
+
+
 
 def extract_entities(text):
 
-    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key='--API KEY HERE--'
+    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key=ENTER THE KEY'
     header = {'Content-Type': 'application/json'}
     body = {
         "document": {
@@ -360,36 +361,21 @@ def extract_required_entities(text):
     return required_entities
 
 
-'''def get_human_names(text):
-    tokens = nltk.tokenize.word_tokenize(text)
-    pos = nltk.pos_tag(tokens)
-    sentt = nltk.ne_chunk(pos, binary = False)
-    person_list = []
-    person = []
-    name = ""
-    for subtree in sentt.subtrees(filter=lambda t: t.node == 'PERSON'):
-        for leaf in subtree.leaves():
-            person.append(leaf[0])
-        if len(person) > 1: #avoid grabbing lone surnames
-            for part in person:
-                name += part + ' '
-            if name[:-1] not in person_list:
-                person_list.append(name[:-1])
-            name = ''
-        person = []
 
-    return (person_list)'''
 
 
 if __name__ == '__main__':
-    extracted_text=detect_text("-- IMAGE FILE PATH --")
+    extracted_text=detect_text("Image PAth ")
     my_data= extract_required_entities(extracted_text)
     #str='\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
     #print u'\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
     #print("here is your checkmark: " + u'\u2713');
     print "-----------------------------------------"
     #print my_data
-    print my_data['PERSON']
+    name=my_data['PERSON']
+    #new_name=name
+    #new_name=edit_name(name)
+
     #print my_data['ORGANIZATION']
 
     #print my_data['NUMBER']
@@ -401,33 +387,57 @@ if __name__ == '__main__':
     ans=get_company_name(copy)
     if ans==None:
         ans=my_data['ORGANIZATION']
-    print "Company Name - ",ans
+    
     copy1=extracted_text.split()
     #print copy
     tel_numb=get_telephone_numb(copy)
-    print "Tel No- ",tel_numb
+    
 
     #mob_numb=get_mobile_number(copy)
     #print mob_numb
 
     fax_numb=get_fax_numb(copy)
-    print "FAX No- ",fax_numb
+    
+
+    mob_numb=get_mobile_numb(copy)
+    
 
     email_id=get_email_id(copy)
-    print email_id
+    #print "HT",email_id
+    
 
     web_address=get_web_address(copy)
-    print web_address
+    
 
     address=get_address(copy)
     if address==None:
         address=my_data['LOCATION']
-    print "Address-  ",address
+    
 
     department = get_department(copy)
-    print "Department- ", department
+    
 
+    position = get_position(copy)
+
+    '''if department != None:
+        if department in name:
+            name=re.sub(department.decode('utf-8'),'',name)
+
+
+    if position != None:
+        if position in name:
+            name=re.sub(position.decode('utf-8'),'',name)'''
     #branch =get_branch(copy)
     #print "Branch- ",branch
 
+    print "Name- ",name
+    print "Company Name - ",ans
+    print "Department- ", department
+    print "Position- ",position
+    print "Address-  ",address
+    print "Tel No- ",tel_numb
+    print "FAX No- ",fax_numb
+    print "Mobile No- ",mob_numb
+    print "Email- ",edit_email(email_id)
+    print web_address
     #print get_human_names(extracted_text)

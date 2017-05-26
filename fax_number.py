@@ -185,6 +185,7 @@ def get_fax_numb(text):
 
         elif "f" in i:
             k=i.find("f")
+            #print "Himanshu"
             j=k+1
             while (j<len(i) and ((ord(i[j])<48) or (ord(i[j])>57)) and i[j]!="+"):
                 j=j+1
@@ -203,9 +204,13 @@ def get_fax_numb(text):
         
         #print str
         counter,number=count_number(str)
+        #print counter,str,i
         if counter ==10:
             return (str)
         elif counter == 11:
             return str
         elif counter==12:
             return str
+        else :
+            str=""
+            continue
