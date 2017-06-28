@@ -21,7 +21,7 @@ def detect_text(image_file):
         base64_image = base64.b64encode(image.read()).decode()
 
     #print "Himanshu"
-    url = 'https://vision.googleapis.com/v1/images:annotate?key=Enter The Key Here'
+    url = 'https://vision.googleapis.com/v1/images:annotate?key=API KEY'
     header = {'Content-Type': 'application/json'}
     body = {
         'requests': [{
@@ -334,7 +334,7 @@ def get_email_id(text):
 
 def extract_entities(text):
 
-    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key=ENTER THE KEY'
+    url = 'https://language.googleapis.com/v1beta1/documents:analyzeEntities?key=API KEY'
     header = {'Content-Type': 'application/json'}
     body = {
         "document": {
@@ -365,7 +365,7 @@ def extract_required_entities(text):
 
 
 if __name__ == '__main__':
-    extracted_text=detect_text("Image PAth ")
+    extracted_text=detect_text("/home/totlani/Desktop/gcloud/visionex/scripts/images/image7.jpg")
     my_data= extract_required_entities(extracted_text)
     #str='\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
     #print u'\u30b3\u30bd\u30dc\u5171\u548c\u56fd\u5927\u4f7f\u9928'
